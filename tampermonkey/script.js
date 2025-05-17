@@ -1,3 +1,4 @@
+/* global google */
 // ==UserScript==
 // @name        google maps radius overlay
 // @run-at      document-start
@@ -19,7 +20,6 @@
 
   /** Google Maps APIのMap.prototype.setCenterをフック */
   function hookMapPrototype () {
-    // eslint-disable-next-line no-undef
     const Proto = google.maps.Map.prototype;
     if (Proto.__radiusHooked) return;
     const orig = Proto.setCenter;
@@ -34,7 +34,6 @@
   /** 円を描画 */
   function attachCircle (map) {
     if (map.__radiusDone) return;
-    // eslint-disable-next-line no-undef
     new google.maps.Circle({
       map,
       center: CENTER,
