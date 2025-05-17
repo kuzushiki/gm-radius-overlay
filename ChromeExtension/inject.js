@@ -12,11 +12,19 @@
   };
 
   /** Google Maps APIが呼ばれるのを待つ */
+  let attempts = 0;
   const waiter = setInterval(() => {
-    if (!window.google?.maps?.Map) return;
+    attempts++;
+    if (!window.google?.maps?.Map) {
+      if (attempts >= 30) {
+        clearInterval(waiter);
+        console.log('[gm-radius-overlay] Failed to find Google Maps API after 30 attempts');
+      }
+      return;
+    }
     clearInterval(waiter);
     hookMapPrototype();
-  }, 50);
+  }, 1000);
 
   /** Google Maps APIのMap.prototype.setCenterをフック */
   function hookMapPrototype() {
